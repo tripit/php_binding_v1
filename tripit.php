@@ -311,180 +311,208 @@ class TripIt {
         $entity = count($pieces) > 1 ? $pieces[1] : null;
 
         $response = $this->_do_request($verb, $entity, $url_args, $post_args);
+        $format = (isset($url_args) && array_key_exists('format', $url_args)) ? $url_args['format'] : (isset($post_args) && array_key_exists('format', $post_args)) ? $post_args['format'] : 'xml';
+        if ($format == 'json') {
+            return $response;
+        }
         return $this->_xml_to_php($response);        
     }
 
-    function get_trip($id, $filter=array()) {
+    function get_trip($id, $filter = array()) {
         $filter['id'] = $id;
         return $this->_parse_command(__FUNCTION__, $filter);
     }
 
-    function get_air($id) {
-        return $this->_parse_command(__FUNCTION__, array( 'id' => $id ));
-    }
-
-    function get_lodging($id) {
-        return $this->_parse_command(__FUNCTION__, array( 'id' => $id ));
-    }
-
-    function get_car($id) {
-        return $this->_parse_command(__FUNCTION__, array( 'id' => $id ));
-    }
-
-    function get_rail($id) {
-        return $this->_parse_command(__FUNCTION__, array( 'id' => $id ));
-    }
-
-    function get_transport($id) {
-        return $this->_parse_command(__FUNCTION__, array( 'id' => $id ));
-    }
-
-    function get_cruise($id) {
-        return $this->_parse_command(__FUNCTION__, array( 'id' => $id ));
-    }
-
-    function get_restaurant($id) {
-        return $this->_parse_command(__FUNCTION__, array( 'id' => $id ));
-    }
-
-    function get_activity($id) {
-        return $this->_parse_command(__FUNCTION__, array( 'id' => $id ));
-    }
-
-    function get_note($id) {
-        return $this->_parse_command(__FUNCTION__, array( 'id' => $id ));
-    }
-
-    function get_map($id) {
-        return $this->_parse_command(__FUNCTION__, array( 'id' => $id ));
-    }
-
-    function get_directions($id) {
-        return $this->_parse_command(__FUNCTION__, array( 'id' => $id ));
-    }
-
-    function get_profile() {
-        return $this->_parse_command(__FUNCTION__);
-    }
-    
-    function get_points_program($id) {
-        return $this->_parse_command(__FUNCTION__, array( 'id' => $id ));
-    }
-
-    function delete_trip($id) {
-        return $this->_parse_command(__FUNCTION__, array( 'id' => $id ));
-    }
-
-    function delete_air($id) {
-        return $this->_parse_command(__FUNCTION__, array( 'id' => $id ));
-    }
-
-    function delete_lodging($id) {
-        return $this->_parse_command(__FUNCTION__, array( 'id' => $id ));
-    }
-
-    function delete_car($id) {
-        return $this->_parse_command(__FUNCTION__, array( 'id' => $id ));
-    }
-
-    function delete_rail($id) {
-        return $this->_parse_command(__FUNCTION__, array( 'id' => $id ));
-    }
-
-    function delete_transport($id) {
-        return $this->_parse_command(__FUNCTION__, array( 'id' => $id ));
-    }
-
-    function delete_cruise($id) {
-        return $this->_parse_command(__FUNCTION__, array( 'id' => $id ));
-    }
-
-    function delete_restaurant($id) {
-        return $this->_parse_command(__FUNCTION__, array( 'id' => $id ));
-    }
-
-    function delete_activity($id) {
-        return $this->_parse_command(__FUNCTION__, array( 'id' => $id ));
-    }
-
-    function delete_note($id) {
-        return $this->_parse_command(__FUNCTION__, array( 'id' => $id ));
-    }
-
-    function delete_map($id) {
-        return $this->_parse_command(__FUNCTION__, array( 'id' => $id ));
-    }
-
-    function delete_directions($id) {
-        return $this->_parse_command(__FUNCTION__, array( 'id' => $id ));
-    }
-    
-    function replace_trip($id, $xml) {
-        return $this->_parse_command(__FUNCTION__, null, array( 'id' => $id, 'xml' => $xml ));
-    }
-
-    function replace_air($id, $xml) {
-        return $this->_parse_command(__FUNCTION__, null, array( 'id' => $id, 'xml' => $xml ));
-    }
-
-    function replace_lodging($id, $xml) {
-        return $this->_parse_command(__FUNCTION__, null, array( 'id' => $id, 'xml' => $xml ));
-    }
-
-    function replace_car($id, $xml) {
-        return $this->_parse_command(__FUNCTION__, null, array( 'id' => $id, 'xml' => $xml ));
-    }
-
-    function replace_rail($id, $xml) {
-        return $this->_parse_command(__FUNCTION__, null, array( 'id' => $id, 'xml' => $xml ));
-    }
-
-    function replace_transport($id, $xml) {
-        return $this->_parse_command(__FUNCTION__, null, array( 'id' => $id, 'xml' => $xml ));
-    }
-
-    function replace_cruise($id, $xml) {
-        return $this->_parse_command(__FUNCTION__, null, array( 'id' => $id, 'xml' => $xml ));
-    }
-
-    function replace_restaurant($id, $xml) {
-        return $this->_parse_command(__FUNCTION__, null, array( 'id' => $id, 'xml' => $xml ));
-    }
-
-    function replace_activity($id, $xml) {
-        return $this->_parse_command(__FUNCTION__, null, array( 'id' => $id, 'xml' => $xml ));
-    }
-
-    function replace_note($id, $xml) {
-        return $this->_parse_command(__FUNCTION__, null, array( 'id' => $id, 'xml' => $xml ));
-    }
-
-    function replace_map($id, $xml) {
-        return $this->_parse_command(__FUNCTION__, null, array( 'id' => $id, 'xml' => $xml ));
-    }
-
-    function replace_directions($id, $xml) {
-        return $this->_parse_command(__FUNCTION__, null, array( 'id' => $id, 'xml' => $xml ));
-    }
-
-    function list_trip($filter=null) {
+    function get_air($id, $filter = array()) {
+        $filter['id'] = $id;
         return $this->_parse_command(__FUNCTION__, $filter);
     }
 
-    function list_object($filter=null) {
+    function get_lodging($id, $filter = array()) {
+        $filter['id'] = $id;
+        return $this->_parse_command(__FUNCTION__, $filter);
+    }
+
+    function get_car($id, $filter = array()) {
+        $filter['id'] = $id;
+        return $this->_parse_command(__FUNCTION__, $filter);
+    }
+
+    function get_rail($id, $filter = array()) {
+        $filter['id'] = $id;
+        return $this->_parse_command(__FUNCTION__, $filter);
+    }
+
+    function get_transport($id, $filter = array()) {
+        $filter['id'] = $id;
+        return $this->_parse_command(__FUNCTION__, $filter);
+    }
+
+    function get_cruise($id, $filter = array()) {
+        $filter['id'] = $id;
+        return $this->_parse_command(__FUNCTION__, $filter);
+    }
+
+    function get_restaurant($id, $filter = array()) {
+        $filter['id'] = $id;
+        return $this->_parse_command(__FUNCTION__, $filter);
+    }
+
+    function get_activity($id, $filter = array()) {
+        $filter['id'] = $id;
+        return $this->_parse_command(__FUNCTION__, $filter);
+    }
+
+    function get_note($id, $filter = array()) {
+        $filter['id'] = $id;
+        return $this->_parse_command(__FUNCTION__, $filter);
+    }
+
+    function get_map($id, $filter = array()) {
+        $filter['id'] = $id;
+        return $this->_parse_command(__FUNCTION__, $filter);
+    }
+
+    function get_directions($id, $filter = array()) {
+        $filter['id'] = $id;
+        return $this->_parse_command(__FUNCTION__, $filter);
+    }
+
+    function get_profile($filter = null) {
         return $this->_parse_command(__FUNCTION__, $filter);
     }
     
-    function list_points_program() {
-        return $this->_parse_command(__FUNCTION__);
+    function get_points_program($id, $filter = array()) {
+        $filter['id'] = $id;
+        return $this->_parse_command(__FUNCTION__, $filter);
     }
 
-    function create($xml) {
-        return $this->_parse_command(__FUNCTION__, null, array( 'xml' => $xml));
+    function delete_trip($id, $filter = array()) {
+        $filter['id'] = $id;
+        return $this->_parse_command(__FUNCTION__, $filter);
+    }
+
+    function delete_air($id, $filter = array()) {
+        $filter['id'] = $id;
+        return $this->_parse_command(__FUNCTION__, $filter);
+    }
+
+    function delete_lodging($id, $filter = array()) {
+        $filter['id'] = $id;
+        return $this->_parse_command(__FUNCTION__, $filter);
+    }
+
+    function delete_car($id, $filter = array()) {
+        $filter['id'] = $id;
+        return $this->_parse_command(__FUNCTION__, $filter);
+    }
+
+    function delete_rail($id, $filter = array()) {
+        $filter['id'] = $id;
+        return $this->_parse_command(__FUNCTION__, $filter);
+    }
+
+    function delete_transport($id, $filter = array()) {
+        $filter['id'] = $id;
+        return $this->_parse_command(__FUNCTION__, $filter);
+    }
+
+    function delete_cruise($id, $filter = array()) {
+        $filter['id'] = $id;
+        return $this->_parse_command(__FUNCTION__, $filter);
+    }
+
+    function delete_restaurant($id, $filter = array()) {
+        $filter['id'] = $id;
+        return $this->_parse_command(__FUNCTION__, $filter);
+    }
+
+    function delete_activity($id, $filter = array()) {
+        $filter['id'] = $id;
+        return $this->_parse_command(__FUNCTION__, $filter);
+    }
+
+    function delete_note($id, $filter = array()) {
+        $filter['id'] = $id;
+        return $this->_parse_command(__FUNCTION__, $filter);
+    }
+
+    function delete_map($id, $filter = array()) {
+        $filter['id'] = $id;
+        return $this->_parse_command(__FUNCTION__, $filter);
+    }
+
+    function delete_directions($id, $filter = array()) {
+        $filter['id'] = $id;
+        return $this->_parse_command(__FUNCTION__, $filter);
     }
     
-    function crs_load_reservations($xml, $company_key=null) {
-        $args = array('xml' => $xml);
+    function replace_trip($id, $data, $format = 'xml') {
+        return $this->_parse_command(__FUNCTION__, null, array( 'id' => $id, 'format' => $format,  $format => $data ));
+    }
+
+    function replace_air($id, $data, $format = 'xml') {
+        return $this->_parse_command(__FUNCTION__, null, array( 'id' => $id, 'format' => $format,  $format => $data ));
+    }
+
+    function replace_lodging($id, $data, $format = 'xml') {
+        return $this->_parse_command(__FUNCTION__, null, array( 'id' => $id, 'format' => $format,  $format => $data ));
+    }
+
+    function replace_car($id, $data, $format = 'xml') {
+        return $this->_parse_command(__FUNCTION__, null, array( 'id' => $id, 'format' => $format,  $format => $data ));
+    }
+
+    function replace_rail($id, $data, $format = 'xml') {
+        return $this->_parse_command(__FUNCTION__, null, array( 'id' => $id, 'format' => $format,  $format => $data ));
+    }
+
+    function replace_transport($id, $data, $format = 'xml') {
+        return $this->_parse_command(__FUNCTION__, null, array( 'id' => $id, 'format' => $format,  $format => $data ));
+    }
+
+    function replace_cruise($id, $data, $format = 'xml') {
+        return $this->_parse_command(__FUNCTION__, null, array( 'id' => $id, 'format' => $format,  $format => $data ));
+    }
+
+    function replace_restaurant($id, $data, $format = 'xml') {
+        return $this->_parse_command(__FUNCTION__, null, array( 'id' => $id, 'format' => $format,  $format => $data ));
+    }
+
+    function replace_activity($id, $data, $format = 'xml') {
+        return $this->_parse_command(__FUNCTION__, null, array( 'id' => $id, 'format' => $format,  $format => $data ));
+    }
+
+    function replace_note($id, $data, $format = 'xml') {
+        return $this->_parse_command(__FUNCTION__, null, array( 'id' => $id, 'format' => $format,  $format => $data ));
+    }
+
+    function replace_map($id, $data, $format = 'xml') {
+        return $this->_parse_command(__FUNCTION__, null, array( 'id' => $id, 'format' => $format,  $format => $data ));
+    }
+
+    function replace_directions($id, $data, $format = 'xml') {
+        return $this->_parse_command(__FUNCTION__, null, array( 'id' => $id, 'format' => $format,  $format => $data ));
+    }
+
+    function list_trip($filter = null) {
+        return $this->_parse_command(__FUNCTION__, $filter);
+    }
+
+    function list_object($filter = null) {
+        return $this->_parse_command(__FUNCTION__, $filter);
+    }
+    
+    function list_points_program($filter = null) {
+        return $this->_parse_command(__FUNCTION__, $filter);
+    }
+
+    function create($data, $format = 'xml') {
+        return $this->_parse_command(__FUNCTION__, null, array( 'format' => $format,  $format => $data ));
+    }
+    
+    function crs_load_reservations($data, $company_key=null, $format = 'xml') {
+        $args = array('format' => $format,  $format => $data);
         if ($company_key !== null) {
             $args['company_key'] = $company_key;
         }
@@ -492,8 +520,9 @@ class TripIt {
         return $this->_parse_command('crsLoadReservations', null, $args);
     }
     
-    function crs_delete_reservations($record_locator) {
-        return $this->_parse_command('crsDeleteReservations', array('record_locator' => $record_locator), null);
+    function crs_delete_reservations($record_locator, $filter = array()) {
+        $filter['record_locator'] = $record_locator;
+        return $this->_parse_command('crsDeleteReservations', $filter, null);
     }
 
     function get_request_token() {
