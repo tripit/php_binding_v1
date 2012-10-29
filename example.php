@@ -33,10 +33,32 @@ $oauth_cred = new OAuthConsumerCredential($oauth_consumer_key, $oauth_consumer_s
 // Create a new TripIt object
 $t = new TripIt($oauth_cred, $api_url);
 
+$xml = <<<EOT
+<Request>
+  <Trip>
+    <start_date>2018-12-09</start_date>
+    <end_date>2018-12-27</end_date>
+    <primary_location>New York, NY</primary_location>
+  </Trip>
+</Request>
+EOT;
+
+$json = <<<EOT
+{"Trip":
+   {"start_date":"2015-12-09",
+    "end_date":"2015-12-27",
+    "primary_location":"New York, NY"
+   }
+}
+EOT;
+
 // Create a new trip
-print "Create a new test trip to New York: \n";
-$xml='<Request><Trip><start_date>2009-12-17</start_date><end_date>2009-12-27</end_date><display_name>Test: New York, NY, December 2009</display_name><is_private>true</is_private><primary_location>New York, NY</primary_location></Trip></Request>';
+print "Create a new test trip using XML to New York: \n";
 $r = $t->create($xml);
+print_r($r);
+
+print "Create a new test trip using JSON to New York: \n";
+$r = $t->create($json, 'json');
 print_r($r);
 
 print "Get my list of travel objects in upcoming trips: \n";
@@ -44,3 +66,11 @@ $r = $t->list_trip();
 print_r($r);
 // The first trip in the list
 print_r($r->Trip[0]);
+
+print "Get my list of travel objects in past trips, in JSON: \n";
+$filter  = [];
+$filter["past"] = "true";
+$filter["include_objects"] = "true";
+$filter['format'] = 'json';
+$r = $t->list_trip($filter);
+print_r($r);
