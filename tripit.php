@@ -311,9 +311,15 @@ class TripIt {
         $entity = count($pieces) > 1 ? $pieces[1] : null;
 
         $response = $this->_do_request($verb, $entity, $url_args, $post_args);
-        $format = (isset($url_args) && array_key_exists('format', $url_args)) ? $url_args['format'] : (isset($post_args) && array_key_exists('format', $post_args)) ? $post_args['format'] : 'xml';
-        if ($format == 'json') {
-            return $response;
+        $format = 'xml';
+        if (isset($url_args) && array_key_exists('format', $url_args)) {
+            $format = $url_args['format'];
+        }
+        else if (isset($post_args) && array_key_exists('format', $post_args)) {
+            $format = $post_args['format'];
+        }
+        if (strtolower($format) == 'json') {
+            return json_decode($response, true);
         }
         return $this->_xml_to_php($response);        
     }
