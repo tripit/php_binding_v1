@@ -282,7 +282,7 @@ class TripIt {
         if ($post_args) {
             $args = $post_args;
             curl_setopt($curl, CURLOPT_POST, true);
-            curl_setopt($curl, CURLOPT_POSTFIELDS, $post_args);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($post_args));
             $http_method = 'POST';
         } else {
             $http_method = 'GET';
