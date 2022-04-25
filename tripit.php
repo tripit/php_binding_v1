@@ -344,6 +344,11 @@ class TripIt {
         return $this->_parse_command(__FUNCTION__, $filter);
     }
 
+    function get_parking($id, $filter = array()) {
+        $filter['id'] = $id;
+        return $this->_parse_command(__FUNCTION__, $filter);
+    }
+
     function get_rail($id, $filter = array()) {
         $filter['id'] = $id;
         return $this->_parse_command(__FUNCTION__, $filter);
@@ -413,6 +418,11 @@ class TripIt {
         return $this->_parse_command(__FUNCTION__, $filter);
     }
 
+    function delete_parking($id, $filter = array()) {
+        $filter['id'] = $id;
+        return $this->_parse_command(__FUNCTION__, $filter);
+    }
+
     function delete_rail($id, $filter = array()) {
         $filter['id'] = $id;
         return $this->_parse_command(__FUNCTION__, $filter);
@@ -466,6 +476,10 @@ class TripIt {
     }
 
     function replace_car($id, $data, $format = 'xml') {
+        return $this->_parse_command(__FUNCTION__, null, array( 'id' => $id, 'format' => $format,  $format => $data ));
+    }
+
+    function replace_parking($id, $data, $format = 'xml') {
         return $this->_parse_command(__FUNCTION__, null, array( 'id' => $id, 'format' => $format,  $format => $data ));
     }
 
